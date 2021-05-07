@@ -1,9 +1,9 @@
-defmodule EmoBattleElixir.MixProject do
+defmodule EmoBattle.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :emo_battle_elixir,
+      app: :emo_battle,
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
