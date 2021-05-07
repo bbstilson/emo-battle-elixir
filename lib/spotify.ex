@@ -16,11 +16,11 @@ defmodule Spotify do
   # This is gross, but sometimes more popular bands with a similar name show up first
   # due to heuristics in Spotify's search API. We do our best here to grab the first
   # artist that matches one of the genres above.
-  def has_valid_subgenre(artist) do
-    artist["genres"] |> Enum.any?(&is_valid_genre/1)
+  def _has_valid_subgenre(artist) do
+    artist["genres"] |> Enum.any?(&_is_valid_genre/1)
   end
 
-  def is_valid_genre(genre) do
+  def _is_valid_genre(genre) do
     found =
       @valid_genre_substrings
       |> Enum.find(fn sub_str -> String.contains?(genre, sub_str) end)
@@ -40,7 +40,7 @@ defmodule Spotify do
       |> Jason.decode!()
 
     artists = response["artists"]["items"]
-    emo_artist = Enum.find(artists, :not_found, &has_valid_subgenre/1)
+    emo_artist = Enum.find(artists, :not_found, &_has_valid_subgenre/1)
 
     if emo_artist == :not_found do
       IO.inspect(artist)
