@@ -11,10 +11,8 @@ defmodule Band do
       followers: json["followers"]
     }
   end
-end
 
-defmodule Battle do
-  @keys [:left, :right]
-  @enforce_keys @keys
-  defstruct @keys
+  def score(band) do
+    band.popularity * band.followers
+  end
 end
