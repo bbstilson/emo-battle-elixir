@@ -1,7 +1,12 @@
 defmodule Band do
+  @derive Jason.Encoder
   @keys [:name, :popularity, :followers]
   @enforce_keys @keys
   defstruct @keys
 end
 
-# case class Battle(left: Tournament, right: Tournament) extends Tournament
+defmodule Battle do
+  @keys [:left, :right]
+  @enforce_keys @keys
+  defstruct @keys
+end
