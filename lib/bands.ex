@@ -1,6 +1,13 @@
 defmodule Bands do
   @bands_data_file File.cwd!() <> "/bands-data.jsonl"
 
+  def data do
+    case File.read(@bands_data_file) do
+      {:ok, data} -> parse_file_data(data)
+      _ -> fetch_band_data()
+    end
+  end
+
   # Order in this list matters. Bands are recursively matched pair-wise.
   # For example, [a, b, c, d] == ((a vs b) vs (c vs d))
   @band_names [
@@ -70,35 +77,28 @@ defmodule Bands do
     "allister"
   ]
 
-  def fetch_artist_info(artist) do
+  defp fetch_artist_info(artist) do
     # An attempt at being respecful of api rate limits uwu.
     :timer.sleep(100)
     Spotify.get_artist_tournament_info(artist)
   end
 
-  def _append_artist_data(artist) do
+  defp append_artist_data(artist) do
     File.write!(@bands_data_file, Jason.encode!(artist) <> "\n", [:append])
   end
 
-  def fetch_band_data do
+  defp fetch_band_data do
     bands = @band_names |> Enum.map(&fetch_artist_info/1)
     # Cache bands for repeat runs.
-    bands |> Enum.each(&_append_artist_data/1)
+    bands |> Enum.each(&append_artist_data/1)
     # Return bands
     bands
   end
 
-  def parse_file_data(data) do
+  defp parse_file_data(data) do
     data
     |> String.split("\n", trim: true)
     |> Enum.map(&Jason.decode!/1)
     |> Enum.map(&Band.from_json/1)
-  end
-
-  def data do
-    case File.read(@bands_data_file) do
-      {:ok, data} -> parse_file_data(data)
-      _ -> fetch_band_data()
-    end
   end
 end
