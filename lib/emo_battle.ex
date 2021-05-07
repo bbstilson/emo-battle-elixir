@@ -36,10 +36,10 @@ defmodule EmoBattle do
   end
 
   # Recursive case.
-  def run_tournament(%Battle{left: left, right: right}, tier) do
+  def run_tournament(%Battle{left: %Battle{}, right: %Battle{}} = battle, tier) do
     next_tier = tier + 1
-    winner_left = run_tournament(left, next_tier)
-    winner_right = run_tournament(right, next_tier)
+    winner_left = run_tournament(battle.left, next_tier)
+    winner_right = run_tournament(battle.right, next_tier)
     band_battle(winner_left, winner_right, tier)
   end
 
