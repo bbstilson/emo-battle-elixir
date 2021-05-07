@@ -49,10 +49,10 @@ defmodule Spotify do
       raise "Couldn't find emo or punk artist"
     end
 
-    [
+    %Band{
       name: emo_artist["name"],
       popularity: emo_artist["popularity"],
       followers: emo_artist["followers"]["total"]
-    ]
+    }
   end
 end
