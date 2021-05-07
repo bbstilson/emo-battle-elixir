@@ -1,6 +1,7 @@
 defmodule Band do
-  @enforce_keys [:name, :popularity, :followers]
-  defstruct [:name, :popularity, :followers]
+  @keys [:name, :popularity, :followers]
+  @enforce_keys @keys
+  defstruct @keys
 end
 
 # case class Battle(left: Tournament, right: Tournament) extends Tournament
